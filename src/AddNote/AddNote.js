@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import config from '../config';
 import ApiContext from '../ApiContext';
-import { format } from 'date-fns';
 import './AddNote.css';
 
-export class AddNote extends Component {
+class AddNote extends Component {
   static contextType = ApiContext;
 
   state = {
@@ -12,7 +11,11 @@ export class AddNote extends Component {
   };
 
   handleSubmit = e => {
-    const date = format(new Date(), 'MM/dd/yyyy');
+    const currentDt = new Date();
+    const mm = currentDt.getMonth() + 1;
+    const dd = currentDt.getDate();
+    const yyyy = currentDt.getFullYear();
+    const date = mm + '/' + dd + '/' + yyyy;
     const { name, content, addToFolder } = e.target;
     const newNote = {
       name: name.value,
@@ -72,7 +75,9 @@ export class AddNote extends Component {
           <label htmlFor='addToFolder'>Folder name</label>
           <select name='addToFolder' id='addToFolder'>
             {this.context.folders.map(folder => (
-              <option value={folder.id}>{folder.name}</option>
+              <option key={folder.id} value={folder.id}>
+                {folder.name}
+              </option>
             ))}
           </select>
         </div>
