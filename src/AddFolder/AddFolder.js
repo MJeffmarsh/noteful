@@ -11,8 +11,6 @@ class AddFolder extends Component {
   };
 
   handleSubmit = e => {
-    e.preventDefault();
-
     const { name } = e.target;
     const addName = {
       name: name.value
@@ -57,8 +55,13 @@ class AddFolder extends Component {
           <label htmlFor='name'>Folder name: </label>
           <input type='text' name='name' id='name' required></input>
         </div>
-        <button type='button' onClick={this.handleCancel}></button>
-        <button type='submit'>Save</button>
+        <div className='addFolder-btn'>
+          <button type='button' onClick={this.handleCancel}>
+            {' '}
+            Cancel{' '}
+          </button>
+          <button type='submit'>Save</button>
+        </div>
       </form>
     );
   }

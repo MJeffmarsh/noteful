@@ -1,2 +1,8 @@
-form {
+.addFolder-form {
+  color: white;
+  padding-left: 5px;
+}
+
+.addFolder-btn {
+  padding-left: 120px;
 }
