@@ -73,7 +73,7 @@ class AddNote extends Component {
 
         <div className='addNote-input'>
           <label htmlFor='addToFolder'>Folder name</label>
-          <select name='addToFolder' id='addToFolder'>
+          <select name='addToFolder' id='addToFolder' required>
             {this.context.folders.map(folder => (
               <option key={folder.id} value={folder.id}>
                 {folder.name}
