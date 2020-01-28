@@ -11,9 +11,10 @@ class AddFolder extends Component {
   };
 
   handleSubmit = e => {
+    e.preventDefault();
     const { name } = e.target;
     const addName = {
-      name: name.value
+      title: name.value
     };
 
     this.setState({ error: null });

@@ -11,6 +11,7 @@ class AddNote extends Component {
   };
 
   handleSubmit = e => {
+    e.preventDefault();
     const currentDt = new Date();
     const mm = currentDt.getMonth() + 1;
     const dd = currentDt.getDate();
@@ -18,10 +19,10 @@ class AddNote extends Component {
     const date = mm + '/' + dd + '/' + yyyy;
     const { name, content, addToFolder } = e.target;
     const newNote = {
-      name: name.value,
+      title: name.value,
       content: content.value,
       folderId: addToFolder.value,
-      modified: date
+      date_modified: date
     };
 
     this.setState({ error: null });
@@ -76,7 +77,7 @@ class AddNote extends Component {
           <select name='addToFolder' id='addToFolder' required>
             {this.context.folders.map(folder => (
               <option key={folder.id} value={folder.id}>
-                {folder.name}
+                {folder.title}
               </option>
             ))}
           </select>

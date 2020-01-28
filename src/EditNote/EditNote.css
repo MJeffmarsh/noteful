@@ -1,0 +1,19 @@
+.EditNoteForm {
+  color: white;
+  padding-left: 5px;
+}
+
+.EditNoteInput {
+  display: flex;
+  flex-direction: column;
+}
+
+input,
+select {
+  width: 150px;
+}
+
+textarea {
+  width: 400px;
+  height: 200px;
+}

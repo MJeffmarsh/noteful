@@ -10,6 +10,7 @@ import NotePageMain from '../NotePageMain/NotePageMain';
 
 import AddFolder from '../AddFolder/AddFolder';
 import AddNote from '../AddNote/AddNote';
+import EditNote from '../EditNote/EditNote';
 import ApiContext from '../ApiContext';
 
 import NotefulError from '../Error';
@@ -42,12 +43,6 @@ class App extends Component {
       });
   }
 
-  handleDeleteNote = noteId => {
-    this.setState({
-      notes: this.state.notes.filter(note => note.id !== noteId)
-    });
-  };
-
   renderNavRoutes() {
     return (
       <>
@@ -72,15 +67,41 @@ class App extends Component {
         <Route path='/note/:noteId' component={NotePageMain} />
         <Route path='/add-folder' component={AddFolder} />
         <Route path='/add-note' component={AddNote} />
+        <Route path='/edit/:noteId' component={EditNote} />
       </>
     );
   }
+
+  addFolder = folder => {
+    this.setState({ folders: [...this.state.folders, folder] });
+  };
+
+  addNote = note => {
+    this.setState({ notes: [...this.state.notes, note] });
+  };
+
+  updateNote = updatedNote => {
+    this.setState({
+      notes: this.state.notes.map(note =>
+        note.id !== updatedNote.id ? note : updatedNote
+      )
+    });
+  };
+
+  handleDeleteNote = noteId => {
+    this.setState({
+      notes: this.state.notes.filter(note => note.id !== noteId)
+    });
+  };
 
   render() {
     const value = {
       notes: this.state.notes,
       folders: this.state.folders,
-      deleteNote: this.handleDeleteNote
+      deleteNote: this.handleDeleteNote,
+      updateNote: this.updateNote,
+      addFolder: this.addFolder,
+      addNote: this.addNote
     };
     return (
       <ApiContext.Provider value={value}>
