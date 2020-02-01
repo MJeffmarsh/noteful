@@ -30,7 +30,7 @@ class EditNote extends Component {
     fetch(config.API_ENDPOINT + `/notes/${noteId}`, {
       method: 'GET',
       headers: {
-        authorization: `Bearer ${config.API_KEY}`
+        'content-type': 'application/json'
       }
     })
       .then(res => {
@@ -64,7 +64,7 @@ class EditNote extends Component {
     const { noteId } = this.props.match.params;
     const { id, title, content } = this.state;
     const newNote = { id, title, content };
-    fetch(config.API_ENDPOINT + `/${noteId}`, {
+    fetch(config.API_ENDPOINT + `notes/${noteId}`, {
       method: 'PATCH',
       body: JSON.stringify(newNote),
       headers: {
