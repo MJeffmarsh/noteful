@@ -22,7 +22,8 @@ class EditNote extends Component {
     error: null,
     id: '',
     title: '',
-    content: ''
+    content: '',
+    date_modified: ''
   };
 
   componentDidMount() {
@@ -39,10 +40,16 @@ class EditNote extends Component {
         return res.json();
       })
       .then(responseData => {
+        const currentDt = new Date();
+        const mm = currentDt.getMonth() + 1;
+        const dd = currentDt.getDate();
+        const yyyy = currentDt.getFullYear();
+        const date = mm + '/' + dd + '/' + yyyy;
         this.setState({
           id: responseData.id,
           title: responseData.title,
-          content: responseData.content
+          content: responseData.content,
+          date_modified: date
         });
       })
       .catch(error => {
@@ -62,9 +69,9 @@ class EditNote extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { noteId } = this.props.match.params;
-    const { id, title, content } = this.state;
-    const newNote = { id, title, content };
-    fetch(config.API_ENDPOINT + `notes/${noteId}`, {
+    const { id, title, content, date_modified } = this.state;
+    const newNote = { id, title, content, date_modified };
+    fetch(config.API_ENDPOINT + `/notes/${noteId}`, {
       method: 'PATCH',
       body: JSON.stringify(newNote),
       headers: {
@@ -86,10 +93,16 @@ class EditNote extends Component {
   };
 
   resetFields = newFields => {
+    const currentDt = new Date();
+    const mm = currentDt.getMonth() + 1;
+    const dd = currentDt.getDate();
+    const yyyy = currentDt.getFullYear();
+    const date = mm + '/' + dd + '/' + yyyy;
     this.setState({
       id: newFields.id || '',
       title: newFields.title || '',
-      content: newFields.content || ''
+      content: newFields.content || '',
+      date_modified: date
     });
   };
 
@@ -102,7 +115,7 @@ class EditNote extends Component {
     return (
       <section className='EditNoteForm'>
         <h2>Edit note</h2>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <div className='EditNote__error' role='alert'>
             {error && <p>{error.message}</p>}
           </div>

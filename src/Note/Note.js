@@ -25,20 +25,17 @@ export default class Note extends React.Component {
     })
       .then(res => {
         if (!res.ok) return res.json().then(e => Promise.reject(e));
-        return res.json();
+        return true;
       })
       .then(() => {
         this.context.deleteNote(noteId);
-      })
-      .then(() => {
+
         this.props.history.push('/');
       })
       .catch(error => {
         console.error({ error });
       });
   };
-
-  
 
   render() {
     const { title, id, date_modified } = this.props;

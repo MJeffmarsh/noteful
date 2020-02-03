@@ -10,6 +10,7 @@
 }
 
 .Note__delete {
+  z-index: 100;
   --note-button-height: 32px;
   background-color: #041a3a;
   color: #bdbcbc;
