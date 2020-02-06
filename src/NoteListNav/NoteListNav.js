@@ -4,20 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CircleButton from '../CircleButton/CircleButton';
 import ApiContext from '../ApiContext';
 import config from '../config';
-import { countNotesForFolder, findFolder } from '../notes-helpers';
+import { countNotesForFolder } from '../notes-helpers';
 import './NoteListNav.css';
 
 export default class NoteListNav extends React.Component {
   static contextType = ApiContext;
 
-  handleClickDelete = e => {
-    const { folders = [] } = this.context;
-
-    const folder = findFolder(folders, e.target.id) || {};
-    const folderId = folder.id;
-    e.preventDefault();
-
-    console.log(folderId);
+  handleClickDelete = () => {
+    const folderId = this.props.match.params.folderId;
 
     fetch(`${config.API_ENDPOINT}/folders/${folderId}`, {
       method: 'DELETE',
@@ -31,7 +25,6 @@ export default class NoteListNav extends React.Component {
       })
       .then(() => {
         this.context.deleteFolder(folderId);
-
         this.props.history.push('/');
       })
       .catch(error => {
