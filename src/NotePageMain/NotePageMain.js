@@ -26,8 +26,7 @@ export default class NotePageMain extends React.Component {
       id: 0,
       date_modified: ''
     };
-    console.log(noteId);
-    console.log(note);
+
     return (
       <section className='NotePageMain'>
         <Note

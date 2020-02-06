@@ -94,11 +94,18 @@ class App extends Component {
     });
   };
 
+  handleDeleteFolder = folderId => {
+    this.setState({
+      folders: this.state.folders.filter(folder => folder.id !== folderId)
+    });
+  };
+
   render() {
     const value = {
       notes: this.state.notes,
       folders: this.state.folders,
       deleteNote: this.handleDeleteNote,
+      deleteFolder: this.handleDeleteFolder,
       updateNote: this.updateNote,
       addFolder: this.addFolder,
       addNote: this.addNote

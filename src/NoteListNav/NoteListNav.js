@@ -3,11 +3,41 @@ import { NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CircleButton from '../CircleButton/CircleButton';
 import ApiContext from '../ApiContext';
-import { countNotesForFolder } from '../notes-helpers';
+import config from '../config';
+import { countNotesForFolder, findFolder } from '../notes-helpers';
 import './NoteListNav.css';
 
 export default class NoteListNav extends React.Component {
   static contextType = ApiContext;
+
+  handleClickDelete = e => {
+    const { folders = [] } = this.context;
+
+    const folder = findFolder(folders, e.target.id) || {};
+    const folderId = folder.id;
+    e.preventDefault();
+
+    console.log(folderId);
+
+    fetch(`${config.API_ENDPOINT}/folders/${folderId}`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+      .then(res => {
+        if (!res.ok) return res.json().then(e => Promise.reject(e));
+        return true;
+      })
+      .then(() => {
+        this.context.deleteFolder(folderId);
+
+        this.props.history.push('/');
+      })
+      .catch(error => {
+        console.error({ error });
+      });
+  };
 
   render() {
     const { folders = [], notes = [] } = this.context;
@@ -23,6 +53,14 @@ export default class NoteListNav extends React.Component {
                 <span className='NoteListNav__num-notes'>
                   {countNotesForFolder(notes, folder.id)}
                 </span>
+                <button
+                  className='Folder__delete'
+                  type='button'
+                  onClick={this.handleClickDelete}
+                >
+                  X
+                  <FontAwesomeIcon icon='trash-alt' />
+                </button>
                 {folder.title}
               </NavLink>
             </li>
